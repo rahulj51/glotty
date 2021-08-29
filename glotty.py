@@ -13,7 +13,7 @@ DIALECT_SPARK = 'spark'
 def from_this_to_that(sql, transformation, pretty=False):
     '''
         Transpiles SQL from Presto to Spark or vice-versa
-        Ex. glotty.py -p2s "select DATE_ADD(date_trunc('week', date(current_timestamp)), -7)"
+        Ex. glotty.py -s2p "select DATE_ADD(date_trunc('week', date(current_timestamp)), -7)"
     '''
 
     if transformation == 'p2s':
