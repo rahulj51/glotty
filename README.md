@@ -22,5 +22,6 @@ Options:
 ```shell
     $ glotty.py -s2p "select DATE_ADD(date_trunc('week', date(current_timestamp)), -7)"
     $ python glotty.py -p2s "SELECT DATE_ADD('day', -7, DATE_PARSE(DATE_TRUNC('week', CAST((current_timestamp) AS date)), '%Y-%m-%d'))"
+    $ cat mysql.sql | glotty.py -s2p
 ```
 
