@@ -5,16 +5,24 @@ import click
 DIALECT_PRESTO = 'presto'
 DIALECT_SPARK = 'spark'
 
+def get_sql(ctx, param, value):
+    if not value and not click.get_text_stream('stdin').isatty():
+        return click.get_text_stream('stdin').read().strip()
+    else:
+        return value
+
 @click.command()
 @click.option('-p2s', 'transformation', required=True, flag_value='p2s', help="Transpile From Presto to Spark")
 @click.option('-s2p', 'transformation', required=True, flag_value='s2p', help="Transpile From Spark to Presto")
 @click.option('--pretty/--no-pretty', default=False, help="Pretty or simple")
-@click.argument('sql', required=True)
+@click.argument('sql', required=False, callback=get_sql, is_eager=True)
 def from_this_to_that(sql, transformation, pretty=False):
     '''
         Transpiles SQL from Presto to Spark or vice-versa
         Ex. glotty.py -s2p "select DATE_ADD(date_trunc('week', date(current_timestamp)), -7)"
     '''
+    if not sql:
+        return
 
     if transformation == 'p2s':
         from_dialect = DIALECT_PRESTO
